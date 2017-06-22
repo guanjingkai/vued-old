@@ -45,6 +45,8 @@
     "editor.md": "^1.5.0",
     "g2": "^2.3.4",
     "popper.js": "^0.6.4",
+    "highlight.js": "^9.11.0",
+    "highlight.js-async-webpack": "^1.0.4",
     "rc-tween-one": "^1.2.7"
   },
   "peerDependencies": {
@@ -100,7 +102,23 @@
     "vue-template-compiler": "^2.3.3",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1",
-    "webpack-merge": "^3.0.0"
+    "webpack-merge": "^3.0.0",
+    "auto-textarea": "^1.3.6",
+    "github-markdown-css": "^2.6.0",
+    "keycode": "^2.1.9",
+    "markdown-it": "^8.3.1",
+    "markdown-it-abbr": "^1.0.4",
+    "markdown-it-container": "^2.0.0",
+    "markdown-it-deflist": "^2.0.0",
+    "markdown-it-emoji": "^1.1.1",
+    "markdown-it-footnote": "^3.0.1",
+    "markdown-it-for-inline": "~0.1.0",
+    "markdown-it-images-preview": "^1.0.0",
+    "markdown-it-ins": "^2.0.0",
+    "markdown-it-katex": "^2.0.3",
+    "markdown-it-mark": "^2.0.0",
+    "markdown-it-sub": "^1.0.0",
+    "markdown-it-sup": "^1.0.0"
   },
   "engines": {
     "node": ">= 4.0.0",

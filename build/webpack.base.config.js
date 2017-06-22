@@ -52,6 +52,9 @@ module.exports = {
                     'css-loader',
                     'sass-loader?sourceMap'
                 ]
+            },{
+                test: /\.styl$/,
+                loader: 'style-loader!css-loader!stylus-loader'
             },
             { test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/, loader: 'url-loader?limit=8192'},
             { test: /\.(html|tpl)$/, loader: 'html-loader' }

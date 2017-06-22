@@ -45,7 +45,8 @@ import Upload from './components/upload';
 import { Row, Col } from './components/grid';
 import { Select, Option, OptionGroup } from './components/select';
 import locale from './locale';
-
+//vued
+import MdEditor from './components/md-editor';
 const vued = {
     Affix,
     Alert,
@@ -117,7 +118,8 @@ const vued = {
     Tooltip,
     Transfer,
     Tree,
-    Upload
+    Upload,
+    MdEditor
 };
 
 const install = function(Vue, opts = {}) {

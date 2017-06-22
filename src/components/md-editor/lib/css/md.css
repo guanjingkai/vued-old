@@ -1,0 +1,19 @@
+@at-root {
+    @import "github-markdown.css"
+}
+
+/*.markdown-body{
+    @import "node_modules/highlight.js/styles/github.css"
+}*/
+.markdown-body strong{
+    font-weight: bolder;
+}
+.code-github{
+@import "github.css"
+}
+.code-hybrid{
+@import "hybrid.css"
+}
+.code-xcode{
+@import "xcode.css"
+}

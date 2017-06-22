@@ -179,6 +179,10 @@ const router = new VueRouter({
         {
             path: '/notice',
             component: require('./routers/notice.vue')
+        },
+        {
+            path: '/md-editor',
+            component: require('./routers/md-editor.vue')
         }
     ]
 });
