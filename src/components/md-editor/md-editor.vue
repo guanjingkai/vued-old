@@ -153,6 +153,7 @@
                 type:String,
                 default:'code-github'
             }
+            
         },
         data() {
             return {
