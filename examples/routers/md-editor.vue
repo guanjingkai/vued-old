@@ -11,6 +11,7 @@
         <Button  @click="fullscreen(screenstate)">当前窗口状态</Button>
         <br/><br/>
         <MdEditor v-model="md" @fullscreen="fullscreen" @readmodel="readmodel" @htmlcode="htmlcode" @subfieldtoggle="subfieldtoggle" @helptoggle="helptoggle" @imgAdd="imgAdd" @imgDel="imgDel"></MdEditor>
+        <ChartLine></ChartLine> 
     </div>
 </template>
 <script>
