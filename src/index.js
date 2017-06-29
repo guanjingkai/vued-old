@@ -48,7 +48,7 @@ import locale from './locale';
 import Upload from './components/interaction/upload';
 import MdEditor from './components/interaction/md-editor';
 //chart
-import ChartLine from './components/chart/Line';
+import ChartBar from './components/chart/bar';
 const vued = {
     Affix,
     Alert,
@@ -122,7 +122,7 @@ const vued = {
     Tree,
     Upload,
     MdEditor,
-    ChartLine
+    ChartBar
 };
 
 const install = function(Vue, opts = {}) {

@@ -1,4 +1,4 @@
-<template>
+<template> 
     <div :class="[{'fullscreen': s_fullScreen},code_style]" class="v-note-wrapper markdown-body">
         <!--工具栏-->
         <div class="v-note-op" v-show="toolbarsFlag">

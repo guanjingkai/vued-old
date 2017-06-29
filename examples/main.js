@@ -183,6 +183,10 @@ const router = new VueRouter({
         {
             path: '/md-editor',
             component: require('./routers/md-editor.vue')
+        },
+        {
+            path: '/chart',
+            component: require('./routers/chart.vue')
         }
     ]
 });
