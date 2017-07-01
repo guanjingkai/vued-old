@@ -2,7 +2,8 @@
  * 公共配置
  */
 var path = require('path');
-function resolve (dir) {
+
+function resolve(dir) {
     return path.join(__dirname, '..', dir)
 }
 
@@ -10,8 +11,7 @@ module.exports = {
     // 加载器
     module: {
         // https://doc.webpack-china.org/guides/migrating/#module-loaders-module-rules
-        rules: [
-            {
+        rules: [{
                 // https://vue-loader.vuejs.org/en/configurations/extract-css.html
                 test: /\.vue$/,
                 loader: 'vue-loader',
@@ -27,7 +27,8 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                loader: 'babel-loader', exclude: /node_modules/
+                loader: 'babel-loader',
+                exclude: /node_modules/
             },
             {
                 test: /\.css$/,
@@ -52,11 +53,14 @@ module.exports = {
                     'css-loader',
                     'sass-loader?sourceMap'
                 ]
-            },{
+            }, {
                 test: /\.styl$/,
                 loader: 'style-loader!css-loader!stylus-loader'
+            }, {
+                test: /\.exec\.js$/,
+                use: ['script-loader']
             },
-            { test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/, loader: 'url-loader?limit=8192'},
+            { test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/, loader: 'url-loader?limit=8192' },
             { test: /\.(html|tpl)$/, loader: 'html-loader' }
         ]
     },

@@ -3,10 +3,14 @@
     </div>
 </template>
 
-<script>
+<script src="../theme/vintage.js">
+    
+</script>
 
+<script>
     import echarts from '../../../utils/echarts';
-    import macarons from 'script-loader!../theme/macarons.js';
+    
+    import ChartTheme from '../theme/vuedtheme';
     const prefixCls = 'ued-chartbar';
     
     export default {
@@ -28,11 +32,12 @@
         methods: {
             cinit() {
                 // 基于准备好的dom，初始化echarts实例
-                var myChart = echarts.init(document.getElementById('main1'), 'macarons');
+                
+                var myChart = echarts.init(document.getElementById('main1'), ChartTheme);
                 // 绘制图表
                 myChart.setOption({
                     title: {
-                        text: 'ECharts 入门示例'
+                        text: 'Vued Bar 入门示例'
                     },
                     tooltip: {
                         trigger: 'axis',
