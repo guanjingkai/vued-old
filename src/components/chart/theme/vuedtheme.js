@@ -413,6 +413,9 @@ var vuedtheme = {
             crossStyle: {
                 color: "#cccccc",
                 width: 1
+            },
+            shadowStyle: {
+                color: 'rgba(106,175,243,0.32)'
             }
         }
     },
