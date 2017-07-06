@@ -25,7 +25,7 @@ Or using script tag for global use
 
 # Usage
 
-```
+```html
 <template>
     <Slider v-model="value" range></Slider>
 </template>
@@ -41,7 +41,7 @@ Or using script tag for global use
 ```
 Use css
 
-```
+```js
 import 'iview/dist/styles/iview.css';
 ```
 
@@ -55,14 +55,15 @@ Normal browsers and Internet Explorer 9+.
 # History
 2017
 # Links
-[Ant Design](http://ant.design)
-[Vue](http://www.vuejs.org)
-[iView](http://www.iviewui.com)
-[Element](http://element.eleme.io)
-[ionicons](http://ionicons.com)
-[Webpack](https://webpack.js.org)
-[Echarts](http://echarts.baidu.com)
+- [Ant Design](http://ant.design)
+- [Vue](http://www.vuejs.org)
+- [iView](http://www.iviewui.com)
+- [Element](http://element.eleme.io)
+- [ionicons](http://ionicons.com)
+- [Webpack](https://webpack.js.org)
+- [Echarts](http://echarts.baidu.com)
 
 # License
 [MIT](http://opensource.org/licenses/MIT)
 Copyright (c) 2017-present, Vued
+
