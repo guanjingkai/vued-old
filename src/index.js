@@ -49,6 +49,9 @@ import Upload from './components/interaction/upload';
 import MdEditor from './components/interaction/md-editor';
 //chart
 import ChartBar from './components/chart/bar';
+import ChartLine from './components/chart/line';
+//access
+import Frame from './components/access/frame';
 const vued = {
     Affix,
     Alert,
@@ -122,7 +125,9 @@ const vued = {
     Tree,
     Upload,
     MdEditor,
-    ChartBar
+    ChartBar,
+    ChartLine,
+    Frame
 };
 
 const install = function(Vue, opts = {}) {
