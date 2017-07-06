@@ -1,5 +1,5 @@
 <script> 
-    export default function(width, height) {
+    export default function() {
     
         if (!(this instanceof Shape)) {
             return new Shape(width, height);
