@@ -2,7 +2,17 @@ import {
     oneOf
 } from '../utils/assist';
 export var chart = {
+    data() {
+        return {
+            series: [],
+            thisData: {},
+            xAxis: {}
+        };
+    },
     props: {
+        //原始数据源
+        chartData: {},
+        chartSet: {},
         //背景色
         backgroundColor: {
             type: String,
@@ -25,6 +35,42 @@ export var chart = {
         }
     },
     methods: {
+        setData() {
+            this.thisData = this.arrToObj(this.$props.chartData);
+            this.setSeries();
+        },
+        setSeries() {
+            const newSeries = [];
+            const chartSet = this.$props.chartSet;
+            //判断维度是否存在
+            if (!chartSet.hasOwnProperty('dimension')) {
+                chartSet.dimension = 0;
+            }
+            if (!chartSet.hasOwnProperty('metric')) {
+
+
+                for (var i in this.thisData[0]) {
+                    const metricValue = [];
+                    for (var j in this.thisData) {
+                        metricValue[j] = this.thisData[j][i];
+                    }
+                    const metricItem = {};
+                    metricItem.name = i;
+                    metricItem.type = this.chartType;
+                    metricItem.data = metricValue;
+                    newSeries[i] = metricItem;
+                }
+            } else {}
+            this.series = newSeries;
+
+        },
+        setXAxis() {
+            this.xAxis = {
+                type: 'category',
+                boundaryGap: false,
+                data: ['周一', '周二', '周三', '周四']
+            }
+        },
         setLegend() {
             const legendSet = {};
             const legendShow = this.$props.legendShow == 'true';
@@ -49,7 +95,7 @@ export var chart = {
                 legendSet.bottom = '20%';
                 legendSet.align = 'right';
             }
-            legendSet.data = ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎', '百度', '谷歌', '必应', '其他'];
+            legendSet.data = ['0', '1', '2'];
             this.legendInfo = legendSet;
         },
         setGrid() {
@@ -74,6 +120,18 @@ export var chart = {
             }
 
             this.gridInfo = gridSet;
+        },
+        arrToObj(data) {
+            const ajson = {};
+            for (var i = 0; i < data.length; i++) {
+                //ajson[i] = data[i];
+                if (Array.isArray(data[i])) {
+                    ajson[i] = this.arrToObj(data[i]);
+                } else {
+                    ajson[i] = data[i];
+                }
+            }
+            return ajson;
         }
     }
 };

@@ -1,7 +1,6 @@
 <template>
     <div>
-        <ChartBar></ChartBar>
-        <ChartLine legendPosition = "right" legendShow = "true" backgroundColor = '#ffffff'>
+        <ChartLine legendPosition = "right" legendShow = "true" backgroundColor = '#ffffff' :chartData="chartData" :chartSet="chartSet">
         </ChartLine> 
     </div>
 </template>
@@ -9,14 +8,16 @@
     export default {
         data () {
             return {
-                
+                chartData:[[1,2,3],[2,2,3],[3,2,3],[4,2,2]],
+                chartSet:{
+                    dimension:[0],
+                    stack:[]
+                }
             }
         },
         mounted(){
             //var MyComponent = this.component('ChartLine')
-            console.log(this.$refs.table.exportCsv({}));
-            var frame =  this.$refs;
-            console.log(frame);
+            
         },
         methods: {
             test(){
