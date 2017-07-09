@@ -26,9 +26,7 @@
         data() {
             return {
                 chartType:'line',
-                currentValue: this.value,
-                legendInfo: {},
-                gridInfo: {}
+                currentValue: this.value
             };
         },
         mounted() {

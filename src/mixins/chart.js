@@ -6,13 +6,22 @@ export var chart = {
         return {
             series: [],
             thisData: {},
-            xAxis: {}
+            xAxis: {},
+            chartDimension: [],
+            chartMetric: [],
+            legendInfo: {},
+            gridInfo: {}
         };
     },
     props: {
         //原始数据源
         chartData: {},
-        chartSet: {},
+        dimension: {
+            default: [0],
+        },
+        metric: {
+            default: null,
+        },
         //背景色
         backgroundColor: {
             type: String,
@@ -42,25 +51,32 @@ export var chart = {
         setSeries() {
             const newSeries = [];
             const chartSet = this.$props.chartSet;
-            //判断维度是否存在
-            if (!chartSet.hasOwnProperty('dimension')) {
-                chartSet.dimension = 0;
-            }
-            if (!chartSet.hasOwnProperty('metric')) {
-
-
+            //计算唯独 Array 
+            this.chartDimension = this.$props.dimension;
+            //获取指标
+            this.chartMetric = this.$props.metric;
+            if (this.chartMetric == null) {
+                this.chartMetric = [];
+                //拼装metric
                 for (var i in this.thisData[0]) {
-                    const metricValue = [];
-                    for (var j in this.thisData) {
-                        metricValue[j] = this.thisData[j][i];
+                    if (!this.inArray(i, this.chartDimension)) {
+                        this.chartMetric.push(i);
                     }
-                    const metricItem = {};
-                    metricItem.name = i;
-                    metricItem.type = this.chartType;
-                    metricItem.data = metricValue;
-                    newSeries[i] = metricItem;
                 }
-            } else {}
+            }
+            //合成series
+            for (var i = 0; i < this.chartMetric.length; i++) {
+                const metricValue = [];
+                for (var j in this.thisData) {
+                    metricValue[j] = this.thisData[j][this.chartMetric[i]];
+                }
+                const metricItem = {};
+                metricItem.name = i;
+                metricItem.type = this.chartType;
+                metricItem.data = metricValue;
+                //处理stack
+                newSeries[i] = metricItem;
+            }
             this.series = newSeries;
 
         },
@@ -114,9 +130,9 @@ export var chart = {
                     } else if (this.$props.legendPosition == 'right') {
                         gridSet.right = 100
                     } else
-                    if (this.$props.legendPosition == 'left') {
-                        gridSet.left = 100
-                    }
+                        if (this.$props.legendPosition == 'left') {
+                            gridSet.left = 100
+                        }
             }
 
             this.gridInfo = gridSet;
@@ -132,6 +148,14 @@ export var chart = {
                 }
             }
             return ajson;
+        },
+        inArray(search, array) {
+            for (var i in array) {
+                if (array[i] == search) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 };

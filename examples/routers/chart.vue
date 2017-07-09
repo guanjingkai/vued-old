@@ -1,6 +1,12 @@
 <template>
     <div>
-        <ChartLine legendPosition = "right" legendShow = "true" backgroundColor = '#ffffff' :chartData="chartData" :chartSet="chartSet">
+        <ChartLine
+            legendPosition = "right" 
+            legendShow = "true" 
+            backgroundColor = '#ffffff' 
+            :dimension="dimension"
+            :chartData="chartData" 
+            :stack="stack">
         </ChartLine> 
     </div>
 </template>
@@ -9,6 +15,8 @@
         data () {
             return {
                 chartData:[[1,2,3],[2,2,3],[3,2,3],[4,2,2]],
+                dimension:[1],
+                stack:[[1,2]],
                 chartSet:{
                     dimension:[0],
                     stack:[]
