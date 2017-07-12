@@ -1,10 +1,7 @@
 <template>
-    <div id="main2" style="height:300px;">
+    <div :id="thisChartId" style="height:300px;">
     </div>
 </template>
-
-<script src="../theme/vintage.js">
-    
 </script>
 
 <script>
@@ -17,7 +14,7 @@
     const prefixCls = 'ued-chartline';
     
     export default {
-        name: 'ChartBar',
+        name: 'ChartLine',
         mixins:[Chart],
         props: {
             //
@@ -25,8 +22,15 @@
         },
         data() {
             return {
+                thisChartId:'line_'+ parseInt(10000*Math.random()),
                 chartType:'line',
-                currentValue: this.value
+                currentValue: this.value,
+                tooltip: {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                }
             };
         },
         mounted() {
@@ -37,50 +41,19 @@
     
         },
         methods: {
-            init() {
-                this.setLegend();//设置图例
-                this.setGrid();//设置坐标系
-                this.setData();//格式化数据
-                this.setXAxis();
-            },
             cinit() {
                 // 基于准备好的dom，初始化echarts实例
     
-                var myChart = echarts.init(document.getElementById('main2'), ChartTheme);
+                var myChart = echarts.init(document.getElementById(this.thisChartId), ChartTheme);
                 // 绘制图表
                 myChart.setOption({
-                    title: {
-                        text: 'Vued Line 入门示例'
-                    },
+                    title: this.chartTitle,
                     backgroundColor:this.$props.backgroundColor,
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: { // 坐标轴指示器，坐标轴触发有效
-                            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-                        }
-                    },
+                    tooltip:this.tooltip,
                     legend: this.legendInfo,
-                    toolbox: {
-                        show: true,
-                        feature: {
-                            dataZoom: {
-                                yAxisIndex: 'none'
-                            },
-                            dataView: {
-                                readOnly: false
-                            },
-                            magicType: {
-                                type: ['line', 'bar', 'stack', 'tiled']
-                            },
-                            restore: {},
-                            saveAsImage: {}
-                        }
-                    },
                     grid: this.gridInfo,
                     xAxis: this.xAxis,
-                    yAxis: [{
-                        type: 'value'
-                    }],
+                    yAxis: this.yAxis,
                     series: this.series
                 });
             }

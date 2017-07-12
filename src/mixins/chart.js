@@ -9,11 +9,16 @@ export var chart = {
             xAxis: {},
             chartDimension: [],
             chartMetric: [],
+            chartStack: {},
             legendInfo: {},
-            gridInfo: {}
+            gridInfo: {},
+            xAxisData: [],
+            yAxis: [],
+            chartTitle: {}
         };
     },
     props: {
+        title: '',
         //原始数据源
         chartData: {},
         dimension: {
@@ -21,6 +26,12 @@ export var chart = {
         },
         metric: {
             default: null,
+        },
+        stack: {
+            default: null
+        },
+        yAxisName: {
+            default: null
         },
         //背景色
         backgroundColor: {
@@ -44,22 +55,39 @@ export var chart = {
         }
     },
     methods: {
-        setData() {
+        init() {
             this.thisData = this.arrToObj(this.$props.chartData);
+            this.chartDimension = this.$props.dimension;
+            this.chartMetric = this.$props.metric;
+            this.chartStack = this.arrToObj(this.$props.stack);
+            this.setTitle();
+            this.setLegend(); //设置图例
+            this.setGrid(); //设置坐标系
+            this.setData(); //格式化数据
+            this.setXAxis();
+            this.setYAxis();
+        },
+        setTitle() {
+            var titleShow = true;
+            if (this.$props.title == '' || this.$props.title == null) {
+                titleShow = false;
+            }
+            this.chartTitle = {
+                show: titleShow,
+                text: this.$props.title
+            }
+        },
+        setData() {
             this.setSeries();
         },
         setSeries() {
             const newSeries = [];
             const chartSet = this.$props.chartSet;
-            //计算唯独 Array 
-            this.chartDimension = this.$props.dimension;
-            //获取指标
-            this.chartMetric = this.$props.metric;
             if (this.chartMetric == null) {
                 this.chartMetric = [];
                 //拼装metric
                 for (var i in this.thisData[0]) {
-                    if (!this.inArray(i, this.chartDimension)) {
+                    if (this.inArray(i, this.chartDimension) === false) {
                         this.chartMetric.push(i);
                     }
                 }
@@ -71,20 +99,56 @@ export var chart = {
                     metricValue[j] = this.thisData[j][this.chartMetric[i]];
                 }
                 const metricItem = {};
-                metricItem.name = i;
+                console.log(1111);
+                console.log(this.chartMetric[i]);
+                metricItem.name = this.chartMetric[i];
                 metricItem.type = this.chartType;
                 metricItem.data = metricValue;
-                //处理stack
+                const stack = this.getStack(this.chartMetric[i]);
+                console.log(this.chartMetric[i]);
+                console.log(stack);
+                (stack !== null) ? metricItem.stack = stack: 1 == 1;
+                if (this.inArray(this.chartMetric[i], this.$props.yAxisName) !== false) {
+                    metricItem.yAxisIndex = this.inArray(this.chartMetric[i], this.$props.yAxisName);
+                } else if (this.inArray(stack, this.$props.yAxisName !== false)) {
+                    metricItem.yAxisIndex = this.inArray(stack, this.$props.yAxisName);
+                }
+                //处理stacks
                 newSeries[i] = metricItem;
             }
             this.series = newSeries;
 
         },
         setXAxis() {
+            var boundaryGap = true;
+            if (this.chartType == 'line') {
+                boundaryGap = false;
+            }
+            for (var i = 0; i < this.chartDimension.length; i++) {
+                for (var j in this.thisData) {
+                    this.xAxisData.push(this.thisData[j][this.chartDimension[i]]);
+                }
+            }
             this.xAxis = {
                 type: 'category',
-                boundaryGap: false,
-                data: ['周一', '周二', '周三', '周四']
+                boundaryGap: boundaryGap,
+                data: this.xAxisData
+            }
+        },
+        setYAxis() {
+            var yName = this.$props.yAxisName;
+            if (yName == null) {
+                this.yAxis = [{
+                    type: 'value'
+                }];
+            } else {
+                for (var i = 0; i < yName.length; i++) {
+                    const yItemData = {};
+                    yItemData.name = yName[i];
+                    yItemData.type = 'value';
+                    this.yAxis.push(yItemData);
+                }
+
             }
         },
         setLegend() {
@@ -111,8 +175,12 @@ export var chart = {
                 legendSet.bottom = '20%';
                 legendSet.align = 'right';
             }
-            legendSet.data = ['0', '1', '2'];
+            legendSet.data = this.getLegendData();
             this.legendInfo = legendSet;
+        },
+        getLegendData() {
+            const legendData = this.$props.metric;
+            return legendData;
         },
         setGrid() {
             const gridSet = {
@@ -128,34 +196,57 @@ export var chart = {
                     } else if (this.$props.legendPosition == 'bottom') {
                         gridSet.bottom = 32
                     } else if (this.$props.legendPosition == 'right') {
-                        gridSet.right = 100
+                        gridSet.right = 128;
                     } else
-                        if (this.$props.legendPosition == 'left') {
-                            gridSet.left = 100
-                        }
+                    if (this.$props.legendPosition == 'left') {
+                        gridSet.left = 100
+                    }
             }
 
             this.gridInfo = gridSet;
         },
         arrToObj(data) {
-            const ajson = {};
-            for (var i = 0; i < data.length; i++) {
-                //ajson[i] = data[i];
-                if (Array.isArray(data[i])) {
-                    ajson[i] = this.arrToObj(data[i]);
-                } else {
-                    ajson[i] = data[i];
+            var ajson = {};
+            if (Array.isArray(data)) {
+
+                for (var i = 0; i < data.length; i++) {
+                    //ajson[i] = data[i];
+                    if (Array.isArray(data[i])) {
+                        ajson[i] = this.arrToObj(data[i]);
+                    } else {
+                        ajson[i] = data[i];
+                    }
+                }
+            } else {
+                for (var i in data) {
+                    //ajson[i] = data[i];
+                    if (Array.isArray(data[i])) {
+                        ajson[i] = this.arrToObj(data[i]);
+                    } else {
+                        ajson[i] = data[i];
+                    }
                 }
             }
+
             return ajson;
         },
         inArray(search, array) {
             for (var i in array) {
                 if (array[i] == search) {
-                    return true;
+                    return i;
                 }
             }
             return false;
+        },
+        getStack(name) {
+            var stack = null;
+            console.log(this.chartStack);
+            for (var i in this.chartStack) {
+                if (this.inArray(name, this.chartStack[i]) !== false) {
+                    stack = i
+                }
+            }
+            return stack;
         }
     }
 };
