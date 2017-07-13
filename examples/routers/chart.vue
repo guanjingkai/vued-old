@@ -1,6 +1,8 @@
 <template>
-    <div>
-        <ChartLine
+<div>
+    <Row>
+        <Col span="12">
+            <ChartLine
             title="Vued Line 演示" 
             legendPosition="top" 
             legendShow="true" 
@@ -11,7 +13,9 @@
             :metric="metric"
             :yAxisName="yAxisName">
         </ChartLine>
-        <ChartBar
+        </Col>
+        <Col span="12">
+            <ChartBar
             title="Vued Bar 演示" 
             legendPosition="top" 
             legendShow="true" 
@@ -22,6 +26,25 @@
             :metric="metric"
             :yAxisName="yAxisName">
         </ChartBar>
+        </Col>
+    </Row>
+    <Row>
+        <Col span="12">
+            <ChartPie
+            title="Vued Pie 演示" 
+            legendPosition="top" 
+            legendShow="true" 
+            backgroundColor='#ffffff' 
+            :dimension="dimension" 
+            :chartData="chartData" 
+            :stack="stack"
+            :metric="metric">
+            </ChartPie>
+        </Col>
+        <Col span="12">
+            1
+        </Col>
+    </Row>
     </div>
 </template>
 
@@ -73,9 +96,9 @@
                     }
                 ],
                 dimension: ['日期'],
-                metric:['销售额-1季度','销售额-2季度','占比'],
+                metric:['销售额-1季度','销售额-2季度'],
                 stack: {'销售额':['销售额-2季度','销售额-1季度']},
-                yAxisName: ['销售额', '占比']
+                yAxisName: ['销售额']
             }
         },
         mounted() {

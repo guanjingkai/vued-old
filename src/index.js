@@ -50,6 +50,7 @@ import MdEditor from './components/interaction/md-editor';
 //chart
 import ChartBar from './components/chart/bar';
 import ChartLine from './components/chart/line';
+import ChartPie from './components/chart/pie';
 //access
 import Frame from './components/access/frame';
 const vued = {
@@ -127,6 +128,7 @@ const vued = {
     MdEditor,
     ChartBar,
     ChartLine,
+    ChartPie,
     Frame
 };
 

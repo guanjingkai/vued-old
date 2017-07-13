@@ -61,11 +61,11 @@ export var chart = {
             this.chartMetric = this.$props.metric;
             this.chartStack = this.arrToObj(this.$props.stack);
             this.setTitle();
+            this.setXAxis();
+            this.setYAxis();
             this.setLegend(); //设置图例
             this.setGrid(); //设置坐标系
             this.setData(); //格式化数据
-            this.setXAxis();
-            this.setYAxis();
         },
         setTitle() {
             var titleShow = true;
@@ -82,7 +82,6 @@ export var chart = {
         },
         setSeries() {
             const newSeries = [];
-            const chartSet = this.$props.chartSet;
             if (this.chartMetric == null) {
                 this.chartMetric = [];
                 //拼装metric
@@ -96,22 +95,23 @@ export var chart = {
             for (var i = 0; i < this.chartMetric.length; i++) {
                 const metricValue = [];
                 for (var j in this.thisData) {
-                    metricValue[j] = this.thisData[j][this.chartMetric[i]];
+                    metricValue[j] = { value: this.thisData[j][this.chartMetric[i]], name: this.thisData[j][this.chartDimension[0]] };
                 }
                 const metricItem = {};
-                console.log(1111);
-                console.log(this.chartMetric[i]);
                 metricItem.name = this.chartMetric[i];
                 metricItem.type = this.chartType;
                 metricItem.data = metricValue;
                 const stack = this.getStack(this.chartMetric[i]);
-                console.log(this.chartMetric[i]);
-                console.log(stack);
                 (stack !== null) ? metricItem.stack = stack: 1 == 1;
                 if (this.inArray(this.chartMetric[i], this.$props.yAxisName) !== false) {
                     metricItem.yAxisIndex = this.inArray(this.chartMetric[i], this.$props.yAxisName);
                 } else if (this.inArray(stack, this.$props.yAxisName !== false)) {
                     metricItem.yAxisIndex = this.inArray(stack, this.$props.yAxisName);
+                }
+                //pie预处理
+                if (this.chartType == 'pie') {
+                    const pieX = (i + 1) / (this.chartMetric.length + 1) * 100 + '%';
+                    metricItem.center = [pieX, '50%']
                 }
                 //处理stacks
                 newSeries[i] = metricItem;
@@ -179,13 +179,19 @@ export var chart = {
             this.legendInfo = legendSet;
         },
         getLegendData() {
-            const legendData = this.$props.metric;
+            let legendData;
+            if (this.chartType == 'line' || this.chartType == 'bar') {
+                legendData = this.$props.metric;
+            } else if (this.chartType == 'pie') {
+                legendData = this.xAxisData;
+            }
+
             return legendData;
         },
         setGrid() {
             const gridSet = {
                 left: '8',
-                right: '8',
+                right: '32',
                 bottom: '32',
                 containLabel: true
             };
@@ -204,6 +210,22 @@ export var chart = {
             }
 
             this.gridInfo = gridSet;
+        },
+        setTooltip() {
+            let tooltip;
+            if (this.chartType == 'line' || this.chartType == 'bar') {
+                tooltip = {
+                    trigger: 'axis',
+                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                        type: 'line' // 默认为直线，可选为：'line' | 'shadow'
+                    }
+                }
+            } else if (this.chartType == 'pie') {
+                tooltip = {
+                    trigger: 'item'
+                }
+            }
+            return tooltip;
         },
         arrToObj(data) {
             var ajson = {};
@@ -250,6 +272,6 @@ export var chart = {
         }
     }
 };
-export var frame = {
+export var charts = {
 
 };

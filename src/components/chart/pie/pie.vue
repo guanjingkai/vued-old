@@ -1,39 +1,31 @@
 <template>
-    <div :id="thisChartId" style="height:300px;">
+    <div :id="thisChartId" style="width:100%;height:400px;">
     </div>
 </template>
-
 </script>
 
 <script>
     import echarts from 'echarts';
     import ChartTheme from '../theme/vuedtheme';
-    import {
-        chart as Chart
-    } from '../../../mixins/chart.js';
+    import {chart as Chart} from '../../../mixins/chart.js';
     import {
         oneOf
     } from '../../../utils/assist';
-    const prefixCls = 'ued-chartbar';
+    const prefixCls = 'ued-chartpie';
     
     export default {
-        name: 'ChartBar',
-        mixins: [Chart],
+        name: 'ChartPie',
+        mixins:[Chart],
         props: {
             //
-    
+            
         },
         data() {
             return {
-                thisChartId: 'bar_' + parseInt(10000 * Math.random()),
-                chartType: 'bar',
+                thisChartId:'pie'+ parseInt(10000*Math.random()),
+                chartType:'pie',
                 currentValue: this.value,
-                tooltip: {
-                    trigger: 'axis',
-                    axisPointer: { // 坐标轴指示器，坐标轴触发有效
-                        type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
-                    }
-                }
+                tooltip: {}
             };
         },
         mounted() {
@@ -47,16 +39,14 @@
             cinit() {
                 // 基于准备好的dom，初始化echarts实例
     
-                let myChart = echarts.init(document.getElementById(this.thisChartId), ChartTheme);
+                var myChart = echarts.init(document.getElementById(this.thisChartId), ChartTheme);
                 // 绘制图表
                 myChart.setOption({
                     title: this.chartTitle,
-                    backgroundColor: this.$props.backgroundColor,
-                    tooltip: this.tooltip,
+                    backgroundColor:this.$props.backgroundColor,
+                    tooltip:this.setTooltip(),
                     legend: this.legendInfo,
                     grid: this.gridInfo,
-                    xAxis: this.xAxis,
-                    yAxis: this.yAxis,
                     series: this.series
                 });
                 window.addEventListener('resize',function(){myChart.resize();},false);

@@ -5,7 +5,7 @@
 </script>
 
 <script>
-    import echarts from '../../../utils/echarts';
+    import echarts from 'echarts';
     import ChartTheme from '../theme/vuedtheme';
     import {chart as Chart} from '../../../mixins/chart.js';
     import {
@@ -43,19 +43,19 @@
         methods: {
             cinit() {
                 // 基于准备好的dom，初始化echarts实例
-    
                 var myChart = echarts.init(document.getElementById(this.thisChartId), ChartTheme);
                 // 绘制图表
                 myChart.setOption({
                     title: this.chartTitle,
                     backgroundColor:this.$props.backgroundColor,
-                    tooltip:this.tooltip,
+                    tooltip:this.setTooltip(),
                     legend: this.legendInfo,
                     grid: this.gridInfo,
                     xAxis: this.xAxis,
                     yAxis: this.yAxis,
                     series: this.series
                 });
+                window.addEventListener('resize',function(){myChart.resize();},false);
             }
         },
         watch: {
