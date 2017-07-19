@@ -42,7 +42,16 @@
             </ChartPie>
         </Col>
         <Col span="12">
-            1
+            <ChartFunnel
+            title="Vued Pie 演示" 
+            legendPosition="top" 
+            legendShow="true" 
+            backgroundColor='#ffffff' 
+            :dimension="dimension1" 
+            :chartData="funnelData" 
+            :stack="stack1"
+            :metric="metric1">
+            </ChartFunnel>
         </Col>
     </Row>
     </div>
@@ -52,6 +61,35 @@
     export default {
         data() {
             return {
+                funnelData:[{
+                    '节点': '客户需求',
+                    '预计': 61,
+                    '实际': 61,
+                },{
+                    '节点': '产品确认',
+                    '预计': 48,
+                    '实际': 40,
+                },{
+                    '节点': '设计完成',
+                    '预计': 40,
+                    '实际': 28,
+                },{
+                    '节点': '开发中',
+                    '预计': 31,
+                    '实际': 18,
+                },{
+                    '节点': '测试中',
+                    '预计': 19,
+                    '实际': 10,
+                },{
+                    '节点': '上线交付',
+                    '预计': 15,
+                    '实际': 9,
+                }],
+                dimension1: ['节点'],
+                metric1:['预计','实际'],
+                stack1: {'产出对比':['实际','预计']},
+                yAxisName1: ['产出对比'],
                 chartData: [{
                         '日期': '1月1日',
                         '销售额-1季度': 1523,

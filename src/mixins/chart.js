@@ -81,6 +81,7 @@ export var chart = {
             this.setSeries();
         },
         setSeries() {
+            var _self = this;
             const newSeries = [];
             if (this.chartMetric == null) {
                 this.chartMetric = [];
@@ -113,11 +114,91 @@ export var chart = {
                     const pieX = (i + 1) / (this.chartMetric.length + 1) * 100 + '%';
                     metricItem.center = [pieX, '50%']
                 }
+                if (this.chartType == 'funnel') {
+                    const opacity = (i + 1) / this.chartMetric.length;
+                    if ((i + 1) == this.chartMetric.length) {
+                        let formatter = {};
+                        for (var o in this.thisData) {
+                            //metricValue[j] = { value: this.thisData[j][this.chartMetric[i]], name: this.thisData[j][this.chartDimension[0]] };
+                            for (var j = 0; j < this.chartMetric.length; j++) {
+                                if (j == 0) {
+                                    formatter[this.thisData[o][this.chartDimension[0]]] = this.thisData[o][this.chartDimension[0]] + ' ' + this.chartMetric[j] + ':' + this.thisData[o][this.chartMetric[j]];
+                                } else {
+                                    formatter[this.thisData[o][this.chartDimension[0]]] = formatter[this.thisData[o][this.chartDimension[0]]] + '-' + this.chartMetric[j] + ':' + this.thisData[o][this.chartMetric[j]];
+                                }
+
+                            }
+                        }
+                        console.log(111);
+                        console.log(formatter);
+                        metricItem.label = {
+                            normal: {
+                                position: 'inside',
+                                formatter: function(params) {
+                                    let formatter = {};
+                                    for (var o in _self.thisData) {
+                                        //metricValue[j] = { value: this.thisData[j][this.chartMetric[i]], name: this.thisData[j][this.chartDimension[0]] };
+                                        for (var j = 0; j < _self.chartMetric.length; j++) {
+                                            if (j == 0) {
+                                                formatter[_self.thisData[o][_self.chartDimension[0]]] = _self.thisData[o][_self.chartDimension[0]] + ' ' + _self.chartMetric[j] + ':' + _self.thisData[o][_self.chartMetric[j]];
+                                            } else {
+                                                formatter[_self.thisData[o][_self.chartDimension[0]]] = formatter[_self.thisData[o][_self.chartDimension[0]]] + '-' + _self.chartMetric[j] + ':' + _self.thisData[o][_self.chartMetric[j]];
+                                            }
+
+                                        }
+                                    }
+                                    return formatter[params.name];
+                                },
+                                textStyle: {
+                                    color: '#fff'
+                                }
+                            },
+                            emphasis: {
+                                position: 'inside',
+                                formatter: function(params) {
+                                    let formatter = {};
+                                    for (var o in _self.thisData) {
+                                        //metricValue[j] = { value: this.thisData[j][this.chartMetric[i]], name: this.thisData[j][this.chartDimension[0]] };
+                                        for (var j = 0; j < _self.chartMetric.length; j++) {
+                                            if (j == 0) {
+                                                formatter[_self.thisData[o][_self.chartDimension[0]]] = _self.thisData[o][_self.chartDimension[0]] + ' ' + _self.chartMetric[j] + ':' + _self.thisData[o][_self.chartMetric[j]];
+                                            } else {
+                                                formatter[_self.thisData[o][_self.chartDimension[0]]] = formatter[_self.thisData[o][_self.chartDimension[0]]] + '-' + _self.chartMetric[j] + ':' + _self.thisData[o][_self.chartMetric[j]];
+                                            }
+
+                                        }
+                                    }
+                                    return formatter[params.name];
+                                }
+                            }
+                        }
+                    }
+                    metricItem.itemStyle = {
+                        normal: {
+                            opacity: opacity
+                        }
+                    }
+                }
                 //处理stacks
                 newSeries[i] = metricItem;
             }
             this.series = newSeries;
 
+        },
+        aaa(bbb) {
+            let formatter = {};
+            for (var o in this.thisData) {
+                //metricValue[j] = { value: this.thisData[j][this.chartMetric[i]], name: this.thisData[j][this.chartDimension[0]] };
+                for (var j = 0; j < this.chartMetric.length; j++) {
+                    if (j == 0) {
+                        formatter[this.thisData[o][this.chartDimension[0]]] = this.thisData[o][this.chartDimension[0]] + ' ' + this.chartMetric[j] + ':' + this.thisData[o][this.chartMetric[j]];
+                    } else {
+                        formatter[this.thisData[o][this.chartDimension[0]]] = formatter[this.thisData[o][this.chartDimension[0]]] + '-' + this.chartMetric[j] + ':' + this.thisData[o][this.chartMetric[j]];
+                    }
+
+                }
+            }
+            return formatter[bbb];
         },
         setXAxis() {
             var boundaryGap = true;

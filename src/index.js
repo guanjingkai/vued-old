@@ -51,6 +51,7 @@ import MdEditor from './components/interaction/md-editor';
 import ChartBar from './components/chart/bar';
 import ChartLine from './components/chart/line';
 import ChartPie from './components/chart/pie';
+import ChartFunnel from './components/chart/funnel';
 //access
 import Frame from './components/access/frame';
 const vued = {
@@ -129,7 +130,9 @@ const vued = {
     ChartBar,
     ChartLine,
     ChartPie,
+    ChartFunnel,
     Frame
+
 };
 
 const install = function(Vue, opts = {}) {
