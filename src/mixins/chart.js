@@ -185,21 +185,6 @@ export var chart = {
             this.series = newSeries;
 
         },
-        aaa(bbb) {
-            let formatter = {};
-            for (var o in this.thisData) {
-                //metricValue[j] = { value: this.thisData[j][this.chartMetric[i]], name: this.thisData[j][this.chartDimension[0]] };
-                for (var j = 0; j < this.chartMetric.length; j++) {
-                    if (j == 0) {
-                        formatter[this.thisData[o][this.chartDimension[0]]] = this.thisData[o][this.chartDimension[0]] + ' ' + this.chartMetric[j] + ':' + this.thisData[o][this.chartMetric[j]];
-                    } else {
-                        formatter[this.thisData[o][this.chartDimension[0]]] = formatter[this.thisData[o][this.chartDimension[0]]] + '-' + this.chartMetric[j] + ':' + this.thisData[o][this.chartMetric[j]];
-                    }
-
-                }
-            }
-            return formatter[bbb];
-        },
         setXAxis() {
             var boundaryGap = true;
             if (this.chartType == 'line') {
