@@ -1,7 +1,9 @@
 /**
  * https://github.com/freeze-component/vue-popper
  * */
-import Popper from 'popper.js';
+import Vue from 'vue';
+const isServer = Vue.prototype.$isServer;
+const Popper = isServer ? function() {} : require('popper.js'); // eslint-disable-line
 
 export default {
     props: {
@@ -28,7 +30,7 @@ export default {
             default () {
                 return {
                     gpuAcceleration: false,
-                    boundariesElement: 'body'    // todo 暂时注释，发现在 vue 2 里方向暂时可以自动识别了，待验证(还是有问题的)
+                    boundariesElement: 'body' // todo 暂时注释，发现在 vue 2 里方向暂时可以自动识别了，待验证(还是有问题的)
                 };
             }
         },
@@ -37,7 +39,7 @@ export default {
         //     default: false
         // }
     },
-    data () {
+    data() {
         return {
             visible: this.value
         };
@@ -62,6 +64,7 @@ export default {
     },
     methods: {
         createPopper() {
+            if (isServer) return;
             if (!/^(top|bottom|left|right)(-start|-end)?$/g.test(this.placement)) {
                 return;
             }
@@ -87,26 +90,31 @@ export default {
             });
         },
         updatePopper() {
+            if (isServer) return;
             this.popperJS ? this.popperJS.update() : this.createPopper();
         },
         doDestroy() {
+            if (isServer) return;
             if (this.visible) return;
             this.popperJS.destroy();
             this.popperJS = null;
         },
         destroyPopper() {
+            if (isServer) return;
             if (this.popperJS) {
                 this.resetTransformOrigin(this.popperJS);
             }
         },
         resetTransformOrigin(popper) {
-            let placementMap = {top: 'bottom', bottom: 'top', left: 'right', right: 'left'};
+            if (isServer) return;
+            let placementMap = { top: 'bottom', bottom: 'top', left: 'right', right: 'left' };
             let placement = popper._popper.getAttribute('x-placement').split('-')[0];
             let origin = placementMap[placement];
             popper._popper.style.transformOrigin = ['top', 'bottom'].indexOf(placement) > -1 ? `center ${ origin }` : `${ origin } center`;
         }
     },
     beforeDestroy() {
+        if (isServer) return;
         if (this.popperJS) {
             this.popperJS.destroy();
         }
