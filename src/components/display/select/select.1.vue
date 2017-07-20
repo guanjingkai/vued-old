@@ -1,34 +1,34 @@
 <template>
     <div :class="classes" v-clickoutside="handleClose">
         <div
-            :class="[prefixCls + '-selection']"
+            :class="[prefixCls '-selection']"
             ref="reference"
             @click="toggleMenu">
-            <div class="ivu-tag" v-for="(item, index) in selectedMultiple">
-                <span class="ivu-tag-text">{{ item.label }}</span>
+            <div class="ued-tag" v-for="(item, index) in selectedMultiple">
+                <span class="ued-tag-text">{{ item.label }}</span>
                 <Icon type="ios-close-empty" @click.native.stop="removeTag(index)"></Icon>
             </div>
-            <span :class="[prefixCls + '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder }}</span>
-            <span :class="[prefixCls + '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
+            <span :class="[prefixCls '-placeholder']" v-show="showPlaceholder && !filterable">{{ localePlaceholder }}</span>
+            <span :class="[prefixCls '-selected-value']" v-show="!showPlaceholder && !multiple && !filterable">{{ selectedSingle }}</span>
             <input
                 type="text"
                 v-if="filterable"
                 v-model="query"
-                :class="[prefixCls + '-input']"
+                :class="[prefixCls '-input']"
                 :placeholder="showPlaceholder ? localePlaceholder : ''"
                 :style="inputStyle"
                 @blur="handleBlur"
                 @keydown="resetInputState"
                 @keydown.delete="handleInputDelete"
                 ref="input">
-            <Icon type="ios-close" :class="[prefixCls + '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
-            <Icon type="arrow-down-b" :class="[prefixCls + '-arrow']" v-if="!remote"></Icon>
+            <Icon type="ios-close" :class="[prefixCls '-arrow']" v-show="showCloseIcon" @click.native.stop="clearSingleSelect"></Icon>
+            <Icon type="arrow-down-b" :class="[prefixCls '-arrow']" v-if="!remote"></Icon>
         </div>
         <transition :name="transitionName">
             <Drop v-show="dropVisible" :placement="placement" ref="dropdown">
-                <ul v-show="notFountShow" :class="[prefixCls + '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
-                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls + '-dropdown-list']"><slot></slot></ul>
-                <ul v-show="loading" :class="[prefixCls + '-loading']">{{ localeLoadingText }}</ul>
+                <ul v-show="notFountShow" :class="[prefixCls '-not-found']"><li>{{ localeNotFoundText }}</li></ul>
+                <ul v-show="(!notFound && !remote) || (remote && !loading && !notFound)" :class="[prefixCls '-dropdown-list']"><slot></slot></ul>
+                <ul v-show="loading" :class="[prefixCls '-loading']">{{ localeLoadingText }}</ul>
             </Drop>
         </transition>
     </div>
@@ -42,6 +42,7 @@
     import Locale from '../../../mixins/locale';
 
     const prefixCls = 'ued-select';
+
     export default {
         name: 'iSelect',
         mixins: [ Emitter, Locale ],
@@ -147,6 +148,7 @@
             },
             showPlaceholder () {
                 let status = false;
+
                 if ((typeof this.model) === 'string') {
                     if (this.model === '') {
                         status = true;
@@ -158,6 +160,7 @@
                 } else if( this.model === null){
                     status = true;
                 }
+
                 return status;
             },
             showCloseIcon () {
@@ -165,6 +168,7 @@
             },
             inputStyle () {
                 let style = {};
+
                 if (this.multiple) {
                     if (this.showPlaceholder) {
                         style.width = '100%';
@@ -172,6 +176,7 @@
                         style.width = `${this.inputLength}px`;
                     }
                 }
+
                 return style;
             },
             localePlaceholder () {
@@ -225,6 +230,7 @@
             findChild (cb) {
                 const find = function (child) {
                     const name = child.$options.componentName;
+
                     if (name) {
                         cb(child);
                     } else if (child.$children.length) {
@@ -233,6 +239,7 @@
                         });
                     }
                 };
+
                 if (this.optionInstances.length) {
                     this.optionInstances.forEach((child) => {
                         find(child);
@@ -246,17 +253,21 @@
             updateOptions (init, slot = false) {
                 let options = [];
                 let index = 1;
+
                 this.findChild((child) => {
                     options.push({
                         value: child.value,
                         label: (child.label === undefined) ? child.$el.innerHTML : child.label
                     });
                     child.index = index++;
+
                     if (init) {
                         this.optionInstances.push(child);
                     }
                 });
+
                 this.options = options;
+
                 if (init) {
                     if (!this.remote) {
                         this.updateSingleSelected(true, slot);
@@ -266,8 +277,10 @@
             },
             updateSingleSelected (init = false, slot = false) {
                 const type = typeof this.model;
+
                 if (type === 'string' || type === 'number') {
                     let findModel = false;
+
                     for (let i = 0; i < this.options.length; i++) {
                         if (this.model === this.options[i].value) {
                             this.selectedSingle = this.options[i].label;
@@ -275,11 +288,13 @@
                             break;
                         }
                     }
+
                     if (slot && !findModel) {
                         this.model = '';
                         this.query = '';
                     }
                 }
+
                 this.toggleSingleSelected(this.model, init);
             },
             clearSingleSelect () {
@@ -288,6 +303,7 @@
                         child.selected = false;
                     });
                     this.model = '';
+
                     if (this.filterable) {
                         this.query = '';
                     }
@@ -296,10 +312,13 @@
             updateMultipleSelected (init = false, slot = false) {
                 if (this.multiple && Array.isArray(this.model)) {
                     let selected = this.remote ? this.selectedMultiple : [];
+
                     for (let i = 0; i < this.model.length; i++) {
                         const model = this.model[i];
+
                         for (let j = 0; j < this.options.length; j++) {
                             const option = this.options[j];
+
                             if (model === option.value) {
                                 selected.push({
                                     value: option.value,
@@ -308,6 +327,7 @@
                             }
                         }
                     }
+
                     const selectedArray = [];
                     const selectedObject = {};
                     selected.forEach(item => {
@@ -316,16 +336,21 @@
                             selectedObject[item.value] = 1;
                         }
                     });
+
                     this.selectedMultiple = this.remote ? selectedArray : selected;
+
                     if (slot) {
                         let selectedModel = [];
+
                         for (let i = 0; i < selected.length; i++) {
                             selectedModel.push(selected[i].value);
                         }
+
                         // if slot change and remove a selected option, emit user
                         if (this.model.length === selectedModel.length) {
                             this.slotChangeDuration = true;
                         }
+
                         this.model = selectedModel;
                     }
                 }
@@ -335,20 +360,25 @@
                 if (this.disabled) {
                     return false;
                 }
+
                 if (this.remote) {
                     const tag = this.model[index];
                     this.selectedMultiple = this.selectedMultiple.filter(item => item.value !== tag);
                 }
+
                 this.model.splice(index, 1);
+
                 if (this.filterable && this.visible) {
                     this.$refs.input.focus();
                 }
+
                 this.broadcast('Drop', 'on-update-popper');
             },
             // to select option for single
             toggleSingleSelected (value, init = false) {
                 if (!this.multiple) {
                     let label = '';
+
                     this.findChild((child) => {
                         if (child.value === value) {
                             child.selected = true;
@@ -357,7 +387,9 @@
                             child.selected = false;
                         }
                     });
+
                     this.hideMenu();
+
                     if (!init) {
                         if (this.labelInValue) {
                             this.$emit('on-change', {
@@ -384,8 +416,10 @@
                             value: value[i]
                         });
                     }
+
                     this.findChild((child) => {
                         const index = value.indexOf(child.value);
+
                         if (index >= 0) {
                             child.selected = true;
                             hybridValue[index].label = (child.label === undefined) ? child.$el.innerHTML : child.label;
@@ -393,6 +427,7 @@
                             child.selected = false;
                         }
                     });
+
                     if (!init) {
                         if (this.labelInValue) {
                             this.$emit('on-change', hybridValue);
@@ -428,6 +463,7 @@
                     // enter
                     if (keyCode === 13) {
                         e.preventDefault();
+
                         this.findChild((child) => {
                             if (child.isFocus) {
                                 child.select();
@@ -438,32 +474,39 @@
             },
             navigateOptions (direction) {
                 if (direction === 'next') {
-                    const next = this.focusIndex + 1;
+                    const next = this.focusIndex 1;
                     this.focusIndex = (this.focusIndex === this.options.length) ? 1 : next;
                 } else if (direction === 'prev') {
                     const prev = this.focusIndex - 1;
                     this.focusIndex = (this.focusIndex <= 1) ? this.options.length : prev;
                 }
+
                 let child_status = {
                     disabled: false,
                     hidden: false
                 };
+
                 let find_deep = false;    // can next find allowed
+
                 this.findChild((child) => {
                     if (child.index === this.focusIndex) {
                         child_status.disabled = child.disabled;
                         child_status.hidden = child.hidden;
+
                         if (!child.disabled && !child.hidden) {
                             child.isFocus = true;
                         }
                     } else {
                         child.isFocus = false;
                     }
+
                     if (!child.hidden && !child.disabled) {
                         find_deep = true;
                     }
                 });
+
                 this.resetScrollTop();
+
                 if ((child_status.disabled || child_status.hidden) && find_deep) {
                     this.navigateOptions(direction);
                 }
@@ -472,16 +515,18 @@
                 const index = this.focusIndex - 1;
                 let bottomOverflowDistance = this.optionInstances[index].$el.getBoundingClientRect().bottom - this.$refs.dropdown.$el.getBoundingClientRect().bottom;
                 let topOverflowDistance = this.optionInstances[index].$el.getBoundingClientRect().top - this.$refs.dropdown.$el.getBoundingClientRect().top;
+
                 if (bottomOverflowDistance > 0) {
-                    this.$refs.dropdown.$el.scrollTop += bottomOverflowDistance;
+                    this.$refs.dropdown.$el.scrollTop= bottomOverflowDistance;
                 }
                 if (topOverflowDistance < 0) {
-                    this.$refs.dropdown.$el.scrollTop += topOverflowDistance;
+                    this.$refs.dropdown.$el.scrollTop= topOverflowDistance;
                 }
             },
             handleBlur () {
                 setTimeout(() => {
                     const model = this.model;
+
                     if (this.multiple) {
                         this.query = '';
                     } else {
@@ -504,7 +549,7 @@
                 }, 300);
             },
             resetInputState () {
-                this.inputLength = this.$refs.input.value.length * 12 + 20;
+                this.inputLength = this.$refs.input.value.length * 12 20;
             },
             handleInputDelete () {
                 if (this.multiple && this.model.length && this.query === '') {
@@ -561,7 +606,7 @@
                         });
                     }
                 }
-            }
+              }
         },
         mounted () {
             this.modelToQuery();
@@ -570,8 +615,10 @@
             this.$nextTick(() => {
                 this.broadcastQuery('');
             });
+
             this.updateOptions(true);
             document.addEventListener('keydown', this.handleKeydown);
+
             this.$on('append', () => {
                 if (!this.remote) {
                     this.modelToQuery();
@@ -600,6 +647,7 @@
                 this.slotChange();
                 this.updateOptions(true, true);
             });
+
             this.$on('on-select-selected', (value) => {
                 if (this.model === value) {
                     this.hideMenu();
@@ -612,6 +660,7 @@
                             this.model.push(value);
                             this.broadcast('Drop', 'on-update-popper');
                         }
+
                         if (this.filterable) {
                             // remote&filterable&multiple时，一次点多项，不应该设置true，因为无法置为false，下次的搜索会失效
                             if (this.query !== '') this.selectToChangeQuery = true;
@@ -620,6 +669,7 @@
                         }
                     } else {
                         this.model = value;
+
                         if (this.filterable) {
                             this.findChild((child) => {
                                 if (child.value === value) {
@@ -709,7 +759,9 @@
                         this.$emit('on-query-change', val);
                     }
                     this.broadcastQuery(val);
+
                     let is_hidden = true;
+
                     this.$nextTick(() => {
                         this.findChild((child) => {
                             if (!child.hidden) {

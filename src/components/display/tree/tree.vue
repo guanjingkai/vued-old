@@ -2,7 +2,7 @@
     <div :class="prefixCls">
         <Tree-node
             v-for="item in data"
-            :key="item"
+            :key="item.nodeKey"
             :data="item"
             visible
             :multiple="multiple"
@@ -18,7 +18,7 @@
     import Locale from '../../../mixins/locale';
 
     const prefixCls = 'ued-tree';
-
+    let key = 1;
     export default {
         name: 'Tree',
         mixins: [ Emitter, Locale ],
@@ -71,6 +71,7 @@
                     if (data.children) {
                         let checkedLength = 0;
                         data.children.forEach(node => {
+                            if (!data.nodeKey) data.nodeKey = key++;
                             if (node.children) node = reverseChecked(node);
                             if (node.checked) checkedLength++;
                         });

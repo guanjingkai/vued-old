@@ -10,6 +10,7 @@
     const defaultPadding = 16;
 
     export default {
+        name: 'Card',
         props: {
             bordered: {
                 type: Boolean,

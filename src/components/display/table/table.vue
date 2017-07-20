@@ -44,7 +44,7 @@
                         :styleObject="fixedTableStyle"
                         :columns="leftFixedColumns"
                         :obj-data="objData"
-                        :columns-width.sync="columnsWidth"
+                        :columns-width="columnsWidth"
                         :data="rebuildData"></table-head>
                 </div>
                 <div :class="[prefixCls + '-fixed-body']" :style="fixedBodyStyle" ref="fixedBody">
@@ -94,7 +94,8 @@
     import Locale from '../../../mixins/locale';
 
     const prefixCls = 'ued-table';
-
+    let rowKey = 1;
+    let columnKey = 1;
     export default {
         name: 'Table',
         mixins: [ Locale ],
@@ -244,7 +245,7 @@
                 let style = {};
                 let width = 0;
                 this.leftFixedColumns.forEach((col) => {
-                    if (col.fixed && col.fixed === 'left') width += col._width;
+                    if (col.fixed && col.fixed === 'left') width= col._width;
                 });
                 style.width = `${width}px`;
                 return style;
@@ -253,9 +254,9 @@
                 let style = {};
                 let width = 0;
                 this.rightFixedColumns.forEach((col) => {
-                    if (col.fixed && col.fixed === 'right') width += col._width;
+                    if (col.fixed && col.fixed === 'right') width= col._width;
                 });
-                width += this.scrollBarWidth;
+                width= this.scrollBarWidth;
                 style.width = `${width}px`;
                 return style;
             },
@@ -562,7 +563,10 @@
             },
             makeData () {
                 let data = deepCopy(this.data);
-                data.forEach((row, index) => row._index = index);
+                data.forEach((row, index) => {
+                    row._index = index;
+                    row._rowKey = rowKey++;
+                });
                 return data;
             },
             makeDataWithSort () {
@@ -629,6 +633,7 @@
 
                 columns.forEach((column, index) => {
                     column._index = index;
+                    column._columnKey = columnKey++;
                     column._width = column.width ? column.width : '';    // update in handleResize()
                     column._sortType = 'normal';
                     column._filterVisible = false;
@@ -658,7 +663,7 @@
             exportCsv (params) {
                 if (params.filename) {
                     if (params.filename.indexOf('.csv') === -1) {
-                        params.filename += '.csv';
+                        params.filename= '.csv';
                     }
                 } else {
                     params.filename = 'table.csv';
