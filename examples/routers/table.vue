@@ -1,5 +1,5 @@
 <template>
-    <Table border :columns="columns5" :data="data5"></Table>
+    <Table border :columns="columns5" :data="data5" @on-select="onSelect" @on-select-cancel="onSelect"></Table>
 </template>
 <script>
     import etable from '../components/table.vue';
@@ -9,8 +9,14 @@
             return {
                 columns5: [
                     {
+                        type: 'selection',
+                        width: 60,
+                        align: 'center'
+                    },
+                    {
                         type: 'expand',
                         render: (h) => {
+                            console.log('______hover______');
                             return h(etable);
                         },
                         width: 50
@@ -71,6 +77,11 @@
                         date: '2016-10-04'
                     },
                 ]
+            }
+        },
+        methods: {
+            onSelect (value) {
+                console.log(value);
             }
         }
     }
