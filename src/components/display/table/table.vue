@@ -88,7 +88,7 @@
     import tableHead from './table-head.vue';
     import tableBody from './table-body.vue';
     import { oneOf, getStyle, deepCopy, getScrollBarSize } from '../../../utils/assist';
-    import { on, off } from '../../utils/dom';
+    import { on, off } from '../../../utils/dom';
     import Csv from '../../../utils/csv';
     import ExportCsv from './export-csv';
     import Locale from '../../../mixins/locale';
