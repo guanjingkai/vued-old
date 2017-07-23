@@ -17,7 +17,13 @@
         name: 'ChartFunnel',
         mixins:[Chart],
         props: {
-            //
+            pyramid:{
+                type: String,
+                default: false,
+                validator(value) {
+                    return oneOf(value, ['true', 'false']);
+                }
+            }
             
         },
         data() {

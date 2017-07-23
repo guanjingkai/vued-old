@@ -115,6 +115,9 @@ export var chart = {
                     metricItem.center = [pieX, '50%']
                 }
                 if (this.chartType == 'funnel') {
+                    if(this.$props.pyramid == true || this.$props.pyramid == 'true'){
+                        metricItem.sort = 'ascending'
+                    }
                     const opacity = (i + 1) / this.chartMetric.length;
                     if ((i + 1) == this.chartMetric.length) {
                         let formatter = {};
@@ -129,8 +132,6 @@ export var chart = {
 
                             }
                         }
-                        console.log(111);
-                        console.log(formatter);
                         metricItem.label = {
                             normal: {
                                 position: 'inside',

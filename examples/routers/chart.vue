@@ -46,6 +46,7 @@
             title="Vued Pie 演示" 
             legendPosition="top" 
             legendShow="true" 
+            pyramid="false"
             backgroundColor='#ffffff' 
             :dimension="dimension1" 
             :chartData="funnelData" 
