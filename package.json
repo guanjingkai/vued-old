@@ -1,6 +1,6 @@
 {
     "name": "vued",
-    "version": "1.0.0-beta.3",
+    "version": "1.0.0-beta.4",
     "title": "Vued",
     "description": "Vued is a UED framework based on Vue2.x, which includes standard UI components, data interaction, graphics, animation and so on",
     "homepage": "http://vued.design",
