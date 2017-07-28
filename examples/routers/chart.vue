@@ -32,18 +32,45 @@
         <Col span="12">
             <ChartPie
             title="Vued Pie 演示" 
-            legendPosition="top" 
+            legendPosition="bottom" 
             legendShow="true" 
             backgroundColor='#ffffff' 
             :dimension="dimension" 
             :chartData="chartData" 
             :stack="stack"
-            :metric="metric">
+            :metric="metric2">
             </ChartPie>
         </Col>
         <Col span="12">
             <ChartFunnel
-            title="Vued Pie 演示" 
+            title="Vued Funnel 演示" 
+            legendPosition="top" 
+            legendShow="true" 
+            pyramid="false"
+            backgroundColor='#ffffff' 
+            :dimension="dimension1" 
+            :chartData="funnelData" 
+            :stack="stack1"
+            :metric="metric1">
+            </ChartFunnel>
+        </Col>
+    </Row>
+    <Row>
+        <Col span="12">
+            <ChartTreemap
+            title="Vued Treemap 演示" 
+            legendPosition="bottom" 
+            legendShow="true" 
+            backgroundColor='#ffffff' 
+            :dimension="dimension" 
+            :chartData="chartData" 
+            :stack="stack"
+            :metric="metric2">
+            </ChartTreemap>
+        </Col>
+        <Col span="12">
+            <ChartFunnel
+            title="Vued Funnel 演示" 
             legendPosition="top" 
             legendShow="true" 
             pyramid="false"
@@ -136,6 +163,7 @@
                 ],
                 dimension: ['日期'],
                 metric:['销售额-1季度','销售额-2季度'],
+                metric2:['销售额-1季度'],
                 stack: {'销售额':['销售额-2季度','销售额-1季度']},
                 yAxisName: ['销售额']
             }

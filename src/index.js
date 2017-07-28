@@ -52,6 +52,7 @@ import ChartBar from './components/chart/bar';
 import ChartLine from './components/chart/line';
 import ChartPie from './components/chart/pie';
 import ChartFunnel from './components/chart/funnel';
+import ChartTreemap from './components/chart/treemap';
 //access
 import Frame from './components/access/frame';
 const vued = {
@@ -131,6 +132,7 @@ const vued = {
     ChartLine,
     ChartPie,
     ChartFunnel,
+    ChartTreemap,
     Frame
 
 };

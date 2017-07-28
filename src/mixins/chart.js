@@ -102,6 +102,7 @@ export var chart = {
                 metricItem.name = this.chartMetric[i];
                 metricItem.type = this.chartType;
                 metricItem.data = metricValue;
+                //分组设置
                 const stack = this.getStack(this.chartMetric[i]);
                 (stack !== null) ? metricItem.stack = stack: 1 == 1;
                 if (this.inArray(this.chartMetric[i], this.$props.yAxisName) !== false) {
@@ -115,7 +116,7 @@ export var chart = {
                     metricItem.center = [pieX, '50%']
                 }
                 if (this.chartType == 'funnel') {
-                    if(this.$props.pyramid == true || this.$props.pyramid == 'true'){
+                    if (this.$props.pyramid == true || this.$props.pyramid == 'true') {
                         metricItem.sort = 'ascending'
                     }
                     const opacity = (i + 1) / this.chartMetric.length;
@@ -141,7 +142,7 @@ export var chart = {
                                         //metricValue[j] = { value: this.thisData[j][this.chartMetric[i]], name: this.thisData[j][this.chartDimension[0]] };
                                         for (var j = 0; j < _self.chartMetric.length; j++) {
                                             if (j == 0) {
-                                                formatter[_self.thisData[o][_self.chartDimension[0]]] = _self.thisData[o][_self.chartDimension[0]] + ' ' + _self.chartMetric[j] + ':' + _self.thisData[o][_self.chartMetric[j]];
+                                                formatter[_self.thisData[o][_self.chartDimension[0]]] = _self.chartMetric[j] + ':' + _self.thisData[o][_self.chartMetric[j]];
                                             } else {
                                                 formatter[_self.thisData[o][_self.chartDimension[0]]] = formatter[_self.thisData[o][_self.chartDimension[0]]] + '-' + _self.chartMetric[j] + ':' + _self.thisData[o][_self.chartMetric[j]];
                                             }
@@ -162,7 +163,7 @@ export var chart = {
                                         //metricValue[j] = { value: this.thisData[j][this.chartMetric[i]], name: this.thisData[j][this.chartDimension[0]] };
                                         for (var j = 0; j < _self.chartMetric.length; j++) {
                                             if (j == 0) {
-                                                formatter[_self.thisData[o][_self.chartDimension[0]]] = _self.thisData[o][_self.chartDimension[0]] + ' ' + _self.chartMetric[j] + ':' + _self.thisData[o][_self.chartMetric[j]];
+                                                formatter[_self.thisData[o][_self.chartDimension[0]]] = _self.chartMetric[j] + ':' + _self.thisData[o][_self.chartMetric[j]];
                                             } else {
                                                 formatter[_self.thisData[o][_self.chartDimension[0]]] = formatter[_self.thisData[o][_self.chartDimension[0]]] + '-' + _self.chartMetric[j] + ':' + _self.thisData[o][_self.chartMetric[j]];
                                             }
@@ -180,6 +181,7 @@ export var chart = {
                         }
                     }
                 }
+                console.error(this.chartType);
                 //处理stacks
                 newSeries[i] = metricItem;
             }
@@ -286,11 +288,31 @@ export var chart = {
                     axisPointer: { // 坐标轴指示器，坐标轴触发有效
                         type: 'line' // 默认为直线，可选为：'line' | 'shadow'
                     }
-                }
+                };
             } else if (this.chartType == 'pie') {
                 tooltip = {
                     trigger: 'item'
-                }
+                };
+            } else if (this.chartType == 'funnel') {
+                var _self = this;
+                tooltip = {
+                    trigger: 'item',
+                    formatter: function(params) {
+                        let formatter = {};
+                        for (var o in _self.thisData) {
+                            //metricValue[j] = { value: this.thisData[j][this.chartMetric[i]], name: this.thisData[j][this.chartDimension[0]] };
+                            for (var j = 0; j < _self.chartMetric.length; j++) {
+                                if (j == 0) {
+                                    formatter[_self.thisData[o][_self.chartDimension[0]]] = '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:9px;height:9px;background-color:' + params.color + '"></span>' + _self.thisData[o][_self.chartDimension[0]] + ' ' + _self.chartMetric[j] + ':' + _self.thisData[o][_self.chartMetric[j]];
+                                } else {
+                                    formatter[_self.thisData[o][_self.chartDimension[0]]] = formatter[_self.thisData[o][_self.chartDimension[0]]] + '-' + _self.chartMetric[j] + ':' + _self.thisData[o][_self.chartMetric[j]];
+                                }
+
+                            }
+                        }
+                        return formatter[params.name];
+                    }
+                };
             }
             return tooltip;
         },
