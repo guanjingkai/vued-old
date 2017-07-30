@@ -1,40 +1,19 @@
 <template>
-    <Select v-model="model1" style="width:200px">
-        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-    </Select>
+    <Dropdown transfer>
+        <a href="javascript:void(0)">
+            下拉菜单
+            <Icon type="arrow-down-b"></Icon>
+        </a>
+        <Dropdown-menu slot="list">
+            <Dropdown-item>驴打滚</Dropdown-item>
+            <Dropdown-item>炸酱面</Dropdown-item>
+            <Dropdown-item disabled>豆汁儿</Dropdown-item>
+            <Dropdown-item>冰糖葫芦</Dropdown-item>
+            <Dropdown-item divided>北京烤鸭</Dropdown-item>
+        </Dropdown-menu>
+    </Dropdown>
 </template>
 <script>
     export default {
-        data () {
-            return {
-                cityList: [
-                    {
-                        value: 'beijing',
-                        label: '北京市'
-                    },
-                    {
-                        value: 'shanghai',
-                        label: '上海市'
-                    },
-                    {
-                        value: 'shenzhen',
-                        label: '深圳市'
-                    },
-                    {
-                        value: 'hangzhou',
-                        label: '杭州市'
-                    },
-                    {
-                        value: 'nanjing',
-                        label: '南京市'
-                    },
-                    {
-                        value: 'chongqing',
-                        label: '重庆市'
-                    }
-                ],
-                model1: ''
-            }
-        }
     }
 </script>
