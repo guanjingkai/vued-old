@@ -181,7 +181,6 @@ export var chart = {
                         }
                     }
                 }
-                console.error(this.chartType);
                 //处理stacks
                 newSeries[i] = metricItem;
             }
