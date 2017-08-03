@@ -350,7 +350,6 @@ export var chart = {
         },
         getStack(name) {
             var stack = null;
-            console.log(this.chartStack);
             for (var i in this.chartStack) {
                 if (this.inArray(name, this.chartStack[i]) !== false) {
                     stack = i
